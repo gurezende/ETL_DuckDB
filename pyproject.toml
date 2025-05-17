@@ -1,0 +1,15 @@
+[project]
+name = "data-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.2.2",
+    "faker>=37.3.0",
+    "faker-commerce>=1.0.4",
+    "fastapi>=0.115.12",
+    "pandas>=2.2.3",
+    "uvicorn>=0.34.2",
+    "numpy>=2.2.5",
+]
