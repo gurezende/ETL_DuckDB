@@ -1,9 +1,6 @@
 import duckdb
 import os
 
-# Reading the data
-api_data = duckdb.read_parquet(["apidata2025_05_20.parquet", "apidata2025_05_21.parquet"])
-
 ########### Generating KPIs from the data ###########
 """
 In this section, you will generate the KPIs from the data that wAS extracted from the API.
@@ -24,32 +21,49 @@ By Product:
 
 """
 
-# KPIs by store
-duckdb.sql("""
-        SELECT
-           store, 
-           product, 
-           SUM(quantity) AS total_qty, 
-           SUM(price*quantity) AS total_revenue, 
-           CAST(date AS DATE) AS dt
-        FROM api_data
-        GROUP BY store, product, dt
-        ORDER BY store, total_qty ASC
-           """).show()
+def transform(data:list):
+    # Reading the data
+    api_data = duckdb.read_parquet(data)
+
+    # KPIs by store
+    by_store = duckdb.sql("""
+            SELECT
+               store, 
+               product, 
+               SUM(quantity) AS total_qty, 
+               CAST(SUM(price*quantity) AS DECIMAL(10, 2)) AS total_revenue, 
+               CAST(date AS DATE) AS dt
+            FROM api_data
+            GROUP BY store, product, dt
+            ORDER BY store, total_qty ASC
+               """)
 
 
-# KPIs by product
-by_product = duckdb.sql("""
-        SELECT 
-           product, 
-           SUM(quantity) as total_qty,
-           AVG(price) as avg_price,
-           AVG(quantity) as avg_qty,
-           SUM(price*quantity) as total_revenue,
-           CAST(date AS DATE) AS dt
-        FROM api_data
-        GROUP BY product, dt
-        ORDER BY total_qty ASC
-           """)
+    # KPIs by product
+    by_product = duckdb.sql("""
+            SELECT 
+               product, 
+               SUM(quantity) as total_qty,
+               CAST(AVG(price) AS DECIMAL(10, 2)) as avg_price,
+               CAST(AVG(quantity) AS DECIMAL(10, 2)) as avg_qty,
+               CAST(SUM(price*quantity) AS DECIMAL(10, 2)) as total_revenue,
+               CAST(date AS DATE) AS dt
+            FROM api_data
+            GROUP BY product, dt
+            ORDER BY total_qty ASC
+               """)
 
-by_product.show()
+    # Reurn
+    return by_store, by_product
+
+
+if __name__ == '__main__':
+
+    # Read the current directory for parquet files
+    files = [f for f in os.listdir("./") if f.endswith(".parquet")]
+
+    stores, products = transform(files)
+    print(stores)
+    print(products)
+
+    # print(duckdb.execute('SELECT * FROM products').fetchall())

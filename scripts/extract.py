@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # Loop API requests
     # For each day in this list
-    for d in [0,1]:
+    for d in [3]:
         # And for each hour in this list
         for h in [0,1]:
             # Extract data from API
