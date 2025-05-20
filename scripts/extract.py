@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import requests
 import time
+from datetime import datetime, timedelta
 
 # API URL
 API_URL = 'http://localhost:8000/'
@@ -26,18 +27,22 @@ def extract_data(dtf=dtf, days=0, hours=0):
     return dtf
 
 if __name__ == '__main__':
+
     # Loop API requests
     # For each day in this list
     for d in [0,1]:
         # And for each hour in this list
-        for h in [1,2]:
+        for h in [1]:
             # Extract data from API
             dtf = extract_data(dtf, days=d, hours=h)
             print(dtf['product'].count())
             time.sleep(3)
     
-    # Save to csv
-    dtf.to_parquet('data.parquet', engine='pyarrow', index=False)
+        # Get date
+        date_today = ((datetime.now() + timedelta(days=d))).strftime('%Y-%m-%d')
+
+        # Save to csv
+        dtf.to_parquet(f'{date_today}_apidata.parquet', engine='pyarrow', index=False)
 
 
 

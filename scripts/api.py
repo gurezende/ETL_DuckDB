@@ -42,5 +42,7 @@ async def fake_data(n:int=1, days:int=0, hours: int=0):
         'price': random.choice([10.8, 10.4, 10.5, 11.2, 11.5, 12.], p=[0.15, 0.22, 0.21, 0.19, 0.18, 0.05])
             }
         time.sleep(0.001)
+
+    print("API Data generated successfully...")
     
     return data
