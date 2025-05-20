@@ -13,4 +13,6 @@ dependencies = [
     "uvicorn>=0.34.2",
     "numpy>=2.2.5",
     "requests>=2.32.3",
+    "pyarrow>=20.0.0",
+    "fastparquet>=2024.11.0",
 ]
