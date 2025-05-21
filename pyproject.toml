@@ -17,4 +17,6 @@ dependencies = [
     "fastparquet>=2024.11.0",
     "agno>=1.5.2",
     "google-genai>=1.16.1",
+    "markdown>=3.8",
+    "seaborn>=0.13.2",
 ]
