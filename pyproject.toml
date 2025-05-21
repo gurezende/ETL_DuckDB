@@ -15,4 +15,6 @@ dependencies = [
     "requests>=2.32.3",
     "pyarrow>=20.0.0",
     "fastparquet>=2024.11.0",
+    "agno>=1.5.2",
+    "google-genai>=1.16.1",
 ]
