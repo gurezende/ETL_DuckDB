@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import tabulate as tb
 from datetime import datetime, timedelta
 from textwrap import dedent
+from price_optimization import price_optimization
 
 
 def generate_report():
@@ -225,6 +226,13 @@ Attached is the report for the day: **{datetime.now().strftime('%Y-%m-%d')}**.
 
 ### Month-Over-Month (MoM) Total Quantity Sold & Revenue By Store
 {tb.tabulate(mom_qty_sold, headers='keys', tablefmt='pipe')}
+
+## Price Optimization
+These are the optimized prices for each product by store:
+{tb.tabulate(price_optimization(), headers='keys', tablefmt='pipe')}
+
+## Dashboard
+![Attached Plot](mosaic.png)
 \
 """)
 
