@@ -66,4 +66,5 @@ if __name__ == '__main__':
     print(stores)
     print(products)
 
-    # print(duckdb.execute('SELECT * FROM products').fetchall())
+
+    """This script is used to transform the raw data into consumable KPIs using DuckDB."""

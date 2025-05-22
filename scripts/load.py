@@ -32,9 +32,20 @@ con.executemany("INSERT INTO DataByStore VALUES (?, ?, ?, ?, ?)", inserts)
 inserts = (duckdb.execute('SELECT * FROM by_product').fetchall())
 con.executemany("INSERT INTO DataByProduct VALUES (?, ?, ?, ?, ?, ?)", inserts)
 
-# # Print the number of rows in the table
+# Print the number of rows in the table
 con.execute("SELECT COUNT(*) FROM DataByStore")
 print(con.fetchall())
 
 con.execute("SELECT COUNT(*) FROM DataByProduct")
 print(con.fetchall())
+
+# Close the connection
+con.close()
+
+# delete parquet files
+for f in os.listdir("./"):
+    if f.endswith(".parquet"):
+        os.remove(f)
+
+
+"""This script is used to load the data into a DuckDB database."""

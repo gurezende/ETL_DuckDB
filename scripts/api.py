@@ -46,3 +46,6 @@ async def fake_data(n:int=1, days:int=0, hours: int=0):
     print("API Data generated successfully...")
     
     return data
+
+
+"""This script is used to create an API endpoint that generate fake data."""
