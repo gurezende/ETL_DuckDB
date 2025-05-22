@@ -1,35 +1,35 @@
 # KPIs REPORT
-Attached is the report for the day: **2025-05-21**.
+Attached is the report for the day: **2025-05-22**.
 
 ## **|> KPIs by STORE**
 
 ### Total Quantity Sold & Revenue By Store
 |    | store   |   total_qty |   total_revenue |   pct_qty |   pct_revenue |
 |---:|:--------|------------:|----------------:|----------:|--------------:|
-|  4 | store5  |        1329 |         14438.6 |  0.212165 |      0.211214 |
-|  1 | store2  |        1276 |         13930.6 |  0.203704 |      0.203783 |
-|  2 | store3  |        1269 |         13860.8 |  0.202586 |      0.202762 |
-|  3 | store4  |        1256 |         13742.1 |  0.200511 |      0.201026 |
-|  0 | store1  |        1134 |         12387.8 |  0.181034 |      0.181214 |
+|  2 | store3  |        1235 |         13550.6 |  0.202791 |      0.204024 |
+|  3 | store4  |        1229 |         13372.5 |  0.201806 |      0.201342 |
+|  4 | store5  |        1219 |         13279   |  0.200164 |      0.199935 |
+|  0 | store1  |        1209 |         13226.4 |  0.198522 |      0.199143 |
+|  1 | store2  |        1198 |         12988.2 |  0.196716 |      0.195556 |
 
 ### Total Quantity By Product By Store
 |    | store   | product   |   total_qty |       pct |
 |---:|:--------|:----------|------------:|----------:|
-|  2 | store1  | widget    |         595 | 0.0949872 |
-|  0 | store1  | gadget    |         433 | 0.0691252 |
-|  1 | store1  | tdget     |         106 | 0.0169221 |
-|  5 | store2  | widget    |         636 | 0.101533  |
-|  3 | store2  | gadget    |         533 | 0.0850894 |
-|  4 | store2  | tdget     |         107 | 0.0170817 |
-|  8 | store3  | widget    |         638 | 0.101852  |
-|  6 | store3  | gadget    |         507 | 0.0809387 |
-|  7 | store3  | tdget     |         124 | 0.0197957 |
-| 11 | store4  | widget    |         608 | 0.0970626 |
-|  9 | store4  | gadget    |         530 | 0.0846105 |
-| 10 | store4  | tdget     |         118 | 0.0188378 |
-| 14 | store5  | widget    |         688 | 0.109834  |
-| 12 | store5  | gadget    |         489 | 0.0780651 |
-| 13 | store5  | tdget     |         152 | 0.0242656 |
+|  2 | store1  | widget    |         643 | 0.105583  |
+|  0 | store1  | gadget    |         489 | 0.0802956 |
+|  1 | store1  | tdget     |          77 | 0.0126437 |
+|  5 | store2  | widget    |         592 | 0.0972085 |
+|  3 | store2  | gadget    |         483 | 0.0793103 |
+|  4 | store2  | tdget     |         123 | 0.020197  |
+|  8 | store3  | widget    |         632 | 0.103777  |
+|  6 | store3  | gadget    |         453 | 0.0743842 |
+|  7 | store3  | tdget     |         150 | 0.0246305 |
+| 11 | store4  | widget    |         650 | 0.106732  |
+|  9 | store4  | gadget    |         458 | 0.0752053 |
+| 10 | store4  | tdget     |         121 | 0.0198686 |
+| 14 | store5  | widget    |         649 | 0.106568  |
+| 12 | store5  | gadget    |         484 | 0.0794745 |
+| 13 | store5  | tdget     |          86 | 0.0141215 |
 
 
 ## **|> KPIs by PRODUCT**
@@ -37,24 +37,24 @@ Attached is the report for the day: **2025-05-21**.
 ### Total Quantity Sold & Revenue By Product
 |    | product   |   total_qty |   total_revenue |   pct_qty |   pct_revenue |
 |---:|:----------|------------:|----------------:|----------:|--------------:|
-|  2 | widget    |        3165 |         34529.1 | 0.505268  |     0.505108  |
-|  0 | gadget    |        2492 |         27211.8 | 0.397829  |     0.398067  |
-|  1 | tdget     |         607 |          6619   | 0.0969029 |     0.0968258 |
+|  2 | widget    |        3166 |         34523.9 | 0.519869  |     0.519808  |
+|  0 | gadget    |        2367 |         25811.2 | 0.38867   |     0.388625  |
+|  1 | tdget     |         557 |          6081.6 | 0.0914614 |     0.0915673 |
 
 ### Week-Over-Week (WoW) Total Quantity Sold & Revenue By Store
 |    | store   |   total_qty |   total_revenue |   last_week_qty |   last_week_revenue |   WoW_qty |   WoW_revenue |
 |---:|:--------|------------:|----------------:|----------------:|--------------------:|----------:|--------------:|
-|  4 | store5  |        1329 |         14438.6 |            1029 |             11220.1 | 0.291545  |     0.286851  |
-|  1 | store2  |        1276 |         13930.6 |            1007 |             10975.1 | 0.26713   |     0.269291  |
-|  2 | store3  |        1269 |         13860.8 |            1072 |             11671.3 | 0.183769  |     0.187597  |
-|  3 | store4  |        1256 |         13742.1 |            1105 |             12103.2 | 0.136652  |     0.13541   |
-|  0 | store1  |        1134 |         12387.8 |            1058 |             11538   | 0.0718336 |     0.0736523 |
+|  0 | store1  |        1209 |         13226.4 |             nan |                 nan |       nan |           nan |
+|  1 | store2  |        1198 |         12988.2 |             nan |                 nan |       nan |           nan |
+|  2 | store3  |        1235 |         13550.6 |             nan |                 nan |       nan |           nan |
+|  3 | store4  |        1229 |         13372.5 |             nan |                 nan |       nan |           nan |
+|  4 | store5  |        1219 |         13279   |             nan |                 nan |       nan |           nan |
 
 ### Month-Over-Month (MoM) Total Quantity Sold & Revenue By Store
 |    | store   |   total_qty |   total_revenue |   last_month_qty |   last_month_revenue |   MoM_qty |   MoM_revenue |
 |---:|:--------|------------:|----------------:|-----------------:|---------------------:|----------:|--------------:|
-|  4 | store5  |        1329 |         14438.6 |             1029 |              11220.1 | 0.291545  |     0.286851  |
-|  1 | store2  |        1276 |         13930.6 |             1007 |              10975.1 | 0.26713   |     0.269291  |
-|  2 | store3  |        1269 |         13860.8 |             1072 |              11671.3 | 0.183769  |     0.187597  |
-|  3 | store4  |        1256 |         13742.1 |             1105 |              12103.2 | 0.136652  |     0.13541   |
-|  0 | store1  |        1134 |         12387.8 |             1058 |              11538   | 0.0718336 |     0.0736523 |
+|  0 | store1  |        1209 |         13226.4 |              nan |                  nan |       nan |           nan |
+|  1 | store2  |        1198 |         12988.2 |              nan |                  nan |       nan |           nan |
+|  2 | store3  |        1235 |         13550.6 |              nan |                  nan |       nan |           nan |
+|  3 | store4  |        1229 |         13372.5 |              nan |                  nan |       nan |           nan |
+|  4 | store5  |        1219 |         13279   |              nan |                  nan |       nan |           nan |

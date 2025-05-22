@@ -172,19 +172,19 @@ def generate_report():
     mosaic['a'].bar(total_quantity_sold.store, total_quantity_sold.total_revenue, color='coral')
 
     # Plot B through F
-    mosaic['b'].bar(products_by_store.query('store == "store1"')['product'], 
+    mosaic['b'].barh(products_by_store.query('store == "store1"')['product'], 
                     products_by_store.query('store == "store1"')['pct'], 
                     color='forestgreen')
-    mosaic['c'].bar(products_by_store.query('store == "store2"')['product'], 
+    mosaic['c'].barh(products_by_store.query('store == "store2"')['product'], 
                     products_by_store.query('store == "store2"')['pct'],
                     color='orange')
-    mosaic['d'].bar(products_by_store.query('store == "store3"')['product'], 
+    mosaic['d'].barh(products_by_store.query('store == "store3"')['product'], 
                     products_by_store.query('store == "store3"')['pct'],               
                     color='royalblue')
-    mosaic['e'].bar(products_by_store.query('store == "store4"')['product'], 
+    mosaic['e'].barh(products_by_store.query('store == "store4"')['product'], 
                     products_by_store.query('store == "store4"')['pct'],
                     color='purple')
-    mosaic['f'].bar(products_by_store.query('store == "store5"')['product'], 
+    mosaic['f'].barh(products_by_store.query('store == "store5"')['product'], 
                     products_by_store.query('store == "store5"')['pct'],
                     color='gold')
 

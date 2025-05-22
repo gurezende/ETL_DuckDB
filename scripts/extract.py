@@ -30,12 +30,12 @@ if __name__ == '__main__':
 
     # Loop API requests
     # For each day in this list
-    for d in [-7]:
+    for d in [-180, -181, -182, -179]:
         # And for each hour in this list
         for h in [0]:
             # Extract data from API
             dtf = extract_data(dtf, days=d, hours=h)
-            print(dtf['product'].count())
+            print(f"{dtf['product'].count()} new rows generated...")
             time.sleep(3)
     
         # Get date
