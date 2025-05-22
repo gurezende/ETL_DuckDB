@@ -12,29 +12,23 @@ API_URL = 'http://localhost:8000/'
 dtf = pd.DataFrame()
 
 # Function to loop API requests
-def extract_data(dtf=dtf, days=0, hours=0):
-    # Get data from API
-    data = requests.get(f"{API_URL}/get_data", params={'n': 1000, 'days': days, 'hours': hours})	
+def extract_data(dtf=dtf, days:list=[0], hours:list=[0], n=1000):
 
-    # Convert to pandas dataframe
-    df = pd.DataFrame.from_dict(data.json(), 
-                                orient='index', 
-                                columns=['date', 'store', 'product', 'quantity','price'])
-
-    # Append to db
-    dtf = pd.concat([dtf, df])
-
-    return dtf
-
-if __name__ == '__main__':
-
-    # Loop API requests
     # For each day in this list
-    for d in [-180, -181, -182, -179]:
+    for d in days:
         # And for each hour in this list
-        for h in [0]:
-            # Extract data from API
-            dtf = extract_data(dtf, days=d, hours=h)
+        for h in hours:
+            # Get data from API
+            data = requests.get(f"{API_URL}/get_data", params={'n': n, 'days': d, 'hours': h})	
+
+            # Convert to pandas dataframe
+            df = pd.DataFrame.from_dict(data.json(), 
+                                        orient='index', 
+                                        columns=['date', 'store', 'product', 'quantity','price'])
+
+            # Append to db
+            dtf = pd.concat([dtf, df])
+
             print(f"{dtf['product'].count()} new rows generated...")
             time.sleep(3)
     
@@ -47,6 +41,12 @@ if __name__ == '__main__':
 
         # Clear dataframe for next day loop
         dtf = pd.DataFrame()
+
+
+# Test
+if __name__ == '__main__':
+
+    extract_data(days=[0,-7,-30],n=500)
 
 
 

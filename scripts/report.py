@@ -23,7 +23,7 @@ def generate_report():
     Returns:
         str: The content of the generated report.
     """
-
+    
     # Date of the report
     today = datetime.now().strftime("%Y-%m-%d")
 
@@ -106,12 +106,11 @@ def generate_report():
 
     # Last week
     last_week = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
-
+    
     # Load the data to pandas dataframe
     df_last_wk = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{last_week}'").fetchdf()
-    df_product_last_wk = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_week}'").fetchdf()
-
-
+    # df_product_last_wk = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_week}'").fetchdf()
+    
     # Total Quantity Sold & Revenue by store
     wow_qty_sold = (df
                     .groupby(['store'])
@@ -133,13 +132,12 @@ def generate_report():
     
     # COMPARISON Month-Over-Month (MoM)
 
-    # Last week
+    # Last month
     last_month = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
-
+    
     # Load the data to pandas dataframe
     df_last_mth = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{last_month}'").fetchdf()
-    df_product_last_mth = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_month}'").fetchdf()
-
+    # df_product_last_mth = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_month}'").fetchdf()
 
     # Total Quantity Sold & Revenue by store
     mom_qty_sold = (df
@@ -147,7 +145,7 @@ def generate_report():
                     .agg({'total_qty':'sum', 'total_revenue':'sum'})
                     .reset_index()
                     .merge(
-                        df_last_wk
+                        df_last_mth
                         .groupby(['store'])
                         .agg({'total_qty':'sum', 'total_revenue':'sum'})
                         .reset_index()
@@ -159,7 +157,6 @@ def generate_report():
                     .sort_values(by='MoM_revenue', ascending=False)
                     )
 
-    
     # Graphics
     # Mosaic Plot
     fig = plt.figure(layout= 'constrained', figsize=(21, 14))
