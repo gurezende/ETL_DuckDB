@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tabulate as tb
 from datetime import datetime, timedelta
+from textwrap import dedent
 
 
 def generate_report():
@@ -44,8 +45,6 @@ def generate_report():
 
 
     # BY PRODUCT
-
-    print("KPIs by PRODUCT")
 
     # Total qty and revenue by product
     total_qty_product = (df_product
@@ -188,38 +187,40 @@ def generate_report():
     con.close()
 
     # Report
-    report  = f"""
-    Attached is the report for the day: {datetime.now().strftime('%Y-%m-%d')}.
-    
-    ## KPIs by STORE
-    
-    ### -------- Total Quantity Sold & Revenue By Store ---------
-    {tb.tabulate(total_quantity_sold,headers='keys', tablefmt='psql')}
+    report_content  = dedent(f"""\
+# KPIs REPORT
+Attached is the report for the day: **{datetime.now().strftime('%Y-%m-%d')}**.
 
-    ### --------- Total Quantity By Product By Store ---------
-    {tb.tabulate(products_by_store, headers='keys', tablefmt='psql')}
-    
-    ======================================================================
+## **|> KPIs by STORE**
 
-    ## KPIs by PRODUCT
+### Total Quantity Sold & Revenue By Store
+{tb.tabulate(total_quantity_sold,headers='keys', tablefmt='pipe')}
 
-    ### -------- Total Quantity Sold & Revenue By Product ---------
-    {tb.tabulate(total_qty_product, headers='keys', tablefmt='psql')}
+### Total Quantity By Product By Store
+{tb.tabulate(products_by_store, headers='keys', tablefmt='pipe')}
 
-    ### --------- WoW Total Quantity Sold & Revenue By Store ---------
-    {tb.tabulate(wow_qty_sold, headers='keys', tablefmt='psql')}
-    
-    ### --------- Week-Over-Week (WoW) Total Quantity Sold & Revenue By Store ---------
-    {tb.tabulate(wow_qty_sold, headers='keys', tablefmt='psql')}
-    
 
-    ###--------- Month-Over-Month (MoM) Total Quantity Sold & Revenue By Store ---------
-    {tb.tabulate(mom_qty_sold, headers='keys', tablefmt='psql')}
-    
+## **|> KPIs by PRODUCT**
 
-    """
+### Total Quantity Sold & Revenue By Product
+{tb.tabulate(total_qty_product, headers='keys', tablefmt='pipe')}
+
+### Week-Over-Week (WoW) Total Quantity Sold & Revenue By Store
+{tb.tabulate(wow_qty_sold, headers='keys', tablefmt='pipe')}
+
+### Month-Over-Month (MoM) Total Quantity Sold & Revenue By Store
+{tb.tabulate(mom_qty_sold, headers='keys', tablefmt='pipe')}
+\
+""")
+
+    with open("report.md", "w") as file:
+        file.write(report_content)
+
+    print("Report saved to report.md")
 
     # Return
-    return report
+    return report_content
 
-print(generate_report())
+# Test
+if __name__ == "__main__":
+    generate_report()

@@ -3,22 +3,19 @@ import smtplib
 from email.message import EmailMessage
 from datetime import datetime
 
-def send_email(recipient_email, sender_email, sender_password, attachment):
+def send_email(recipient_email, sender_email, sender_password, message, report_md, charts):
     msg = EmailMessage()
     msg['Subject'] = f"Automated Report - {datetime.now().strftime('%Y-%m-%d')}"
     msg['From'] = sender_email
     msg['To'] = recipient_email
 
     # Email body
-    msg.set_content(f"""
-    Hello,
+    msg.set_content(message)
+    
+    # Attachments
+    msg.add_attachment(open(report_md, "rb").read(), maintype="text", subtype="markdown", filename="report.md")
 
-    Attached is the automated report for the day: {datetime.now().strftime('%Y-%m-%d')}.
-    
-    """)
-    
-    # Attachment
-    with open(attachment, 'rb') as fp:
+    with open(charts, 'rb') as fp:
         img_data = fp.read()
     msg.add_attachment(img_data, maintype='image',
                                  subtype='png')

@@ -4,6 +4,7 @@ import duckdb
 from agno.agent import Agent
 from agno.models.google import Gemini
 from report import generate_report
+from utils import send_email
 
 agent = Agent(
     model= Gemini(id="gemini-2.0-flash", api_key=os.environ.get("GEMINI_API_KEY")),
@@ -26,5 +27,21 @@ agent = Agent(
 # Prompt
 prompt = "Analyze the tables and return a report like response with totals and marketing recommendation for each store and product."
 
-# Run the agent
-agent.print_response(prompt, markdown=True, stream=False)
+# Run the agent and get the response
+response = agent.run(prompt, markdown=True, stream=False).content
+
+# Send email
+
+recipient_email = os.environ.get("RECIPIENT_EMAIL")
+sender_email = os.environ.get("SENDER_EMAIL")
+password = os.environ.get("EMAIL_PASSWORD")
+
+# Send the report via email
+send_email(recipient_email=recipient_email,
+           sender_email=sender_email,
+           sender_password=password,
+           message=response,
+           report_md="report.md",
+           charts="mosaic.png"
+           )
+
