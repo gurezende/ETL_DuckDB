@@ -30,9 +30,9 @@ if __name__ == '__main__':
 
     # Loop API requests
     # For each day in this list
-    for d in [3]:
+    for d in [-7]:
         # And for each hour in this list
-        for h in [0,1]:
+        for h in [0]:
             # Extract data from API
             dtf = extract_data(dtf, days=d, hours=h)
             print(dtf['product'].count())

@@ -1,72 +1,225 @@
 # imports
 import duckdb
 import pandas as pd
-import seaborn as sns
+import matplotlib.pyplot as plt
 import tabulate as tb
-from datetime import datetime
+from datetime import datetime, timedelta
 
-# Date of the report
-today = datetime.now().strftime("%Y-%m-%d")
 
-# Create a connection to the database
-con = duckdb.connect("data.db")
+def generate_report():
+    # Date of the report
+    today = datetime.now().strftime("%Y-%m-%d")
 
-# Load the data to pandas dataframe
-df = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{today}'").fetchdf()
-df_product = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{today}'").fetchdf()
+    # Create a connection to the database
+    con = duckdb.connect("data.db")
 
-### Calculate KPIs for the report ###
+    # Load the data to pandas dataframe
+    df = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{today}'").fetchdf()
+    df_product = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{today}'").fetchdf()
 
-# BY STORE
+    ### Calculate KPIs for the report ###
 
-# Total Quantity Sold & Revenue by store
-total_quantity_sold = (df
-                       .groupby(['store'])
+    # BY STORE
+
+    # Total Quantity Sold & Revenue by store
+    total_quantity_sold = (df
+                        .groupby(['store'])
+                            .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                        .reset_index()
+                        .sort_values(by='total_revenue', ascending=False)
+                        .assign(pct_qty = lambda x: x['total_qty'] / x['total_qty'].sum(),
+                                pct_revenue = lambda x: x['total_revenue']/ x['total_revenue'].sum())
+                        )
+
+    
+    # Distribution of sales by product by store
+    products_by_store = (df
+                        .groupby(['store', 'product'])
+                        ['total_qty']
+                        .sum()
+                        .reset_index()
+                        .assign(pct = lambda x: x['total_qty']/ x['total_qty'].sum())
+                        .sort_values(by= ['store','pct'], ascending=[True, False])
+                        )
+
+
+    # BY PRODUCT
+
+    print("KPIs by PRODUCT")
+
+    # Total qty and revenue by product
+    total_qty_product = (df_product
+                        .groupby('product')
+                        .agg({'total_qty':'sum', 'total_revenue': 'sum'})
+                        .reset_index()
+                        .assign(pct_qty = lambda x: x['total_qty'] / x['total_qty'].sum(),
+                                pct_revenue = lambda x: x['total_revenue']/ x['total_revenue'].sum())
+                        .sort_values(by='total_revenue', ascending=False)
+                        )
+
+ 
+    # COMPARISON Week-Over-Week (WoW)
+
+    # Last week
+    last_week = (datetime.now() + timedelta(days=-7)).strftime("%Y-%m-%d")
+
+    # Load the data to pandas dataframe
+    df_last_wk = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{last_week}'").fetchdf()
+    df_product_last_wk = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_week}'").fetchdf()
+
+
+    # Total Quantity Sold & Revenue by store
+    wow_qty_sold = (df
+                    .groupby(['store'])
+                    .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                    .reset_index()
+                    .merge(
+                        df_last_wk
+                        .groupby(['store'])
                         .agg({'total_qty':'sum', 'total_revenue':'sum'})
-                       .reset_index()
-                       .sort_values(by='total_revenue', ascending=False)
-                       .assign(pct_qty = lambda x: x['total_qty'] / x['total_qty'].sum(),
-                               pct_revenue = lambda x: x['total_revenue']/ x['total_revenue'].sum())
-                       )
-
-print("|> KPIs by STORE")
-print("\n--------- Total Quantity Sold & Revenue By Store ---------\n")
-print(tb.tabulate(total_quantity_sold,headers='keys', tablefmt='psql'))
-print("\n")
-
-# Distribution of sales by product by store
-products_by_store = (df
-                     .groupby(['store', 'product'])
-                     ['total_qty']
-                     .sum()
-                     .reset_index()
-                     .assign(pct = lambda x: x['total_qty']/ x['total_qty'].sum())
-                     .sort_values(by= ['store','pct'], ascending=[True, False])
-                     )
-
-print("\n--------- Total Quantity By Product By Store ---------\n")
-print(tb.tabulate(products_by_store, headers='keys', tablefmt='psql'))
-print("\n")
+                        .reset_index()
+                        .rename(columns={'total_qty':'last_week_qty', 'total_revenue':'last_week_revenue'}),
+                        on='store',
+                        how='left'   )
+                    .assign(WoW_qty = lambda x: (x['total_qty'] - x['last_week_qty']) / x['last_week_qty'],
+                            WoW_revenue = lambda x: (x['total_revenue'] - x['last_week_revenue']) / x['last_week_revenue'])
+                    .sort_values(by='WoW_revenue', ascending=False)
+                    )
 
 
-# BY PRODUCT
+    # COMPARISON Week-Over-Week (WoW)
 
-print("|> KPIs by PRODUCT")
+    # Last week
+    last_week = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
 
-# Total qty and revenue by product
-total_qty_product = (df_product
-                     .groupby('product')
-                     .agg({'total_qty':'sum', 'total_revenue': 'sum'})
-                     .reset_index()
-                     .assign(pct_qty = lambda x: x['total_qty'] / x['total_qty'].sum(),
-                               pct_revenue = lambda x: x['total_revenue']/ x['total_revenue'].sum())
-                     .sort_values(by='total_revenue', ascending=False)
-                     )
-
-print("\n--------- Total Quantity Sold & Revenue By Product ---------\n")
-print(tb.tabulate(total_qty_product, headers='keys', tablefmt='psql'))
-print('\n')
+    # Load the data to pandas dataframe
+    df_last_wk = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{last_week}'").fetchdf()
+    df_product_last_wk = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_week}'").fetchdf()
 
 
-# COMPARISON Week-Over-Week
+    # Total Quantity Sold & Revenue by store
+    wow_qty_sold = (df
+                    .groupby(['store'])
+                    .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                    .reset_index()
+                    .merge(
+                        df_last_wk
+                        .groupby(['store'])
+                        .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                        .reset_index()
+                        .rename(columns={'total_qty':'last_week_qty', 'total_revenue':'last_week_revenue'}),
+                        on='store',
+                        how='left'   )
+                    .assign(WoW_qty = lambda x: (x['total_qty'] - x['last_week_qty']) / x['last_week_qty'],
+                            WoW_revenue = lambda x: (x['total_revenue'] - x['last_week_revenue']) / x['last_week_revenue'])
+                    .sort_values(by='WoW_revenue', ascending=False)
+                    )
 
+    
+    # COMPARISON Month-Over-Month (MoM)
+
+    # Last week
+    last_month = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+
+    # Load the data to pandas dataframe
+    df_last_mth = con.execute(f"SELECT * FROM DataByStore WHERE dt = '{last_month}'").fetchdf()
+    df_product_last_mth = con.execute(f"SELECT * FROM DataByProduct WHERE dt = '{last_month}'").fetchdf()
+
+
+    # Total Quantity Sold & Revenue by store
+    mom_qty_sold = (df
+                    .groupby(['store'])
+                    .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                    .reset_index()
+                    .merge(
+                        df_last_wk
+                        .groupby(['store'])
+                        .agg({'total_qty':'sum', 'total_revenue':'sum'})
+                        .reset_index()
+                        .rename(columns={'total_qty':'last_month_qty', 'total_revenue':'last_month_revenue'}),
+                        on='store',
+                        how='left'   )
+                    .assign(MoM_qty = lambda x: (x['total_qty'] - x['last_month_qty']) / x['last_month_qty'],
+                            MoM_revenue = lambda x: (x['total_revenue'] - x['last_month_revenue']) / x['last_month_revenue'])
+                    .sort_values(by='MoM_revenue', ascending=False)
+                    )
+
+    
+    # Graphics
+    # Mosaic Plot
+    fig = plt.figure(layout= 'constrained', figsize=(21, 14))
+    mosaic = fig.subplot_mosaic('''
+                                aaab
+                                cdef
+                                ''')
+
+
+    # Plot A
+    mosaic['a'].bar(total_quantity_sold.store, total_quantity_sold.total_revenue, color='coral')
+
+    # Plot B through F
+    mosaic['b'].bar(products_by_store.query('store == "store1"')['product'], 
+                    products_by_store.query('store == "store1"')['pct'], 
+                    color='forestgreen')
+    mosaic['c'].bar(products_by_store.query('store == "store2"')['product'], 
+                    products_by_store.query('store == "store2"')['pct'],
+                    color='orange')
+    mosaic['d'].bar(products_by_store.query('store == "store3"')['product'], 
+                    products_by_store.query('store == "store3"')['pct'],               
+                    color='royalblue')
+    mosaic['e'].bar(products_by_store.query('store == "store4"')['product'], 
+                    products_by_store.query('store == "store4"')['pct'],
+                    color='purple')
+    mosaic['f'].bar(products_by_store.query('store == "store5"')['product'], 
+                    products_by_store.query('store == "store5"')['pct'],
+                    color='gold')
+
+    # Define Titles
+    titles = ['Total Revenue (USD) by Store', '[STORE1] Total Quantity % Sold by Product', '[STORE2] Total Quantity % Sold by Product',
+            '[STORE3] Total Quantity % Sold by Product', '[STORE4] Total Quantity % Sold by Product', '[STORE5] Total Quantity % Sold by Product']
+
+    for ax, g_title in zip(mosaic.items(), titles):
+        ax[1].set_title(g_title, fontstyle='italic')
+
+    # Save the figure
+    fig.savefig('mosaic.png')
+
+    # Close the connection
+    con.close()
+
+    # Report
+    report  = f"""
+    Attached is the report for the day: {datetime.now().strftime('%Y-%m-%d')}.
+    
+    ## KPIs by STORE
+    
+    ### -------- Total Quantity Sold & Revenue By Store ---------
+    {tb.tabulate(total_quantity_sold,headers='keys', tablefmt='psql')}
+
+    ### --------- Total Quantity By Product By Store ---------
+    {tb.tabulate(products_by_store, headers='keys', tablefmt='psql')}
+    
+    ======================================================================
+
+    ## KPIs by PRODUCT
+
+    ### -------- Total Quantity Sold & Revenue By Product ---------
+    {tb.tabulate(total_qty_product, headers='keys', tablefmt='psql')}
+
+    ### --------- WoW Total Quantity Sold & Revenue By Store ---------
+    {tb.tabulate(wow_qty_sold, headers='keys', tablefmt='psql')}
+    
+    ### --------- Week-Over-Week (WoW) Total Quantity Sold & Revenue By Store ---------
+    {tb.tabulate(wow_qty_sold, headers='keys', tablefmt='psql')}
+    
+
+    ###--------- Month-Over-Month (MoM) Total Quantity Sold & Revenue By Store ---------
+    {tb.tabulate(mom_qty_sold, headers='keys', tablefmt='psql')}
+    
+
+    """
+
+    # Return
+    return report
+
+print(generate_report())
