@@ -8,6 +8,21 @@ from textwrap import dedent
 
 
 def generate_report():
+    
+    """
+    Generate a KPI report for sales data by store and product.
+
+    This function connects to a DuckDB database, retrieves sales data for the current day,
+    and calculates key performance indicators (KPIs) for both stores and products. It also
+    compares sales data week-over-week and month-over-month. The function generates a report
+    that includes total quantity sold and revenue by store and product, distribution of sales
+    by product by store, and performance comparisons. It also creates visualizations in the
+    form of a mosaic plot and saves the report to a Markdown file.
+
+    Returns:
+        str: The content of the generated report.
+    """
+
     # Date of the report
     today = datetime.now().strftime("%Y-%m-%d")
 

@@ -22,6 +22,18 @@ By Product:
 """
 
 def transform(data:list):
+    
+    """
+    This function takes in a list of parquet files and returns two DataFrames containing the KPIs for each store and product.
+    
+    Parameters:
+    data (list): A list of file paths to parquet files containing the data
+    
+    Returns:
+    by_store (DataFrame): A DataFrame containing the KPIs for each store. The columns are 'store', 'product', 'total_qty', 'total_revenue', and 'dt'.
+    by_product (DataFrame): A DataFrame containing the KPIs for each product. The columns are 'product', 'total_qty', 'avg_price', 'avg_qty', 'total_revenue', and 'dt'.
+    """
+    
     # Reading the data
     api_data = duckdb.read_parquet(data)
 

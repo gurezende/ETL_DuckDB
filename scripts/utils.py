@@ -4,6 +4,22 @@ from email.message import EmailMessage
 from datetime import datetime
 
 def send_email(recipient_email, sender_email, sender_password, message, report_md, charts):
+    """Send an email with a report as a markdown attachment and a chart as a PNG attachment.
+    
+    Parameters:
+    recipient_email (str): The email address to send the report to.
+    sender_email (str): The email address used to send the report.
+    sender_password (str): The password for the sender email address.
+    message (str): The body of the email.
+    report_md (str): The path to the report file.
+    charts (str): The path to the chart file.
+    
+    Returns:
+    None
+    
+    Raises:
+    Exception: If an error occurs when sending the email."""
+    
     msg = EmailMessage()
     msg['Subject'] = f"Automated Report - {datetime.now().strftime('%Y-%m-%d')}"
     msg['From'] = sender_email
