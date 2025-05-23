@@ -15,7 +15,6 @@ def price_optimization():
     
     # Load Data
     df = pd.read_parquet([f for f in os.listdir("./") if f.endswith(".parquet")])
-    print(df.columns)
 
     # Clean and format data
 
