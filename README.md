@@ -54,7 +54,12 @@ Being a small business, it should not have to go to expensive solutions like Dat
 * `utils.py`: Script to automate email with the report.
 * `main.py`: This is the main script to orchestrate the whole etl process, AI Agent Analysis and e-mail automation.
 
-## How to Run Project
+## How to Run This Project
+
+### API Keys needed: Before running the project, you will need to get API key for:
+
+* [Google Gemini](https://ai.google.dev/gemini-api/docs/api-key)
+* [GMail Access Key](https://support.google.com/mail/thread/205453566/how-to-generate-an-app-password?hl=en)
 
 1. Clone the repository.
   
