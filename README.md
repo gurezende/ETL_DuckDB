@@ -1,4 +1,5 @@
 # Data Pipeline with API Integration and AI Analysis
+![](img/coverimage-wide.jpeg)
 
 ## Overview
 
@@ -19,6 +20,11 @@ Being a small business, it should not have to go to expensive solutions like Dat
 * Extracts data from a source (simulated in this case).
 * Transforms the data using Python and DuckDB.
 * Loads the transformed data into a DuckDB database.
+* Calculate KPIs.
+* Estimate optimal price with PyGAM.
+* Analyzes data with AI Agent.
+* Sends email automatically.
+
 
 ## Requirements
 
@@ -53,7 +59,7 @@ Being a small business, it should not have to go to expensive solutions like Dat
 1. Clone the repository.
   
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+git clone https://github.com/gurezende/ETL_DuckDB
 ```
 
 2. Create a virtual environment

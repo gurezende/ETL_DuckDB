@@ -28,4 +28,4 @@ agent = Agent(
     show_tool_calls=True
 )
 
-agent.print_response("Read the codes in the 'scripts' folder and write a 'Readme.md' file explaining the project and how to run it", markdown=True)
+agent.print_response("Read the repo and generate a prompt to create a picture that summarizes the repo", markdown=True)
