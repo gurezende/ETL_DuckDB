@@ -44,7 +44,7 @@ def transform(data:list):
                product, 
                SUM(quantity) AS total_qty, 
                CAST(SUM(price*quantity) AS DECIMAL(10, 2)) AS total_revenue, 
-               CAST(date AS DATE) AS dt
+               CAST(dt AS DATE) AS dt
             FROM api_data
             GROUP BY store, product, dt
             ORDER BY store, total_qty ASC
@@ -59,7 +59,7 @@ def transform(data:list):
                CAST(AVG(price) AS DECIMAL(10, 2)) as avg_price,
                CAST(AVG(quantity) AS DECIMAL(10, 2)) as avg_qty,
                CAST(SUM(price*quantity) AS DECIMAL(10, 2)) as total_revenue,
-               CAST(date AS DATE) AS dt
+               CAST(dt AS DATE) AS dt
             FROM api_data
             GROUP BY product, dt
             ORDER BY total_qty ASC

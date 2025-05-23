@@ -31,10 +31,12 @@ def send_email(recipient_email, sender_email, sender_password, message, report_m
     # Attachments
     msg.add_attachment(open(report_md, "rb").read(), maintype="text", subtype="markdown", filename="report.md")
 
-    with open(charts, 'rb') as fp:
-        img_data = fp.read()
-    msg.add_attachment(img_data, maintype='image',
-                                 subtype='png')
+    # Attach Charts
+    for chart in charts:
+        with open(chart, 'rb') as fp:
+            img_data = fp.read()
+        msg.add_attachment(img_data, maintype='image',
+                                     subtype='png')
 
     # Try to send the email. On error, print the error
     try:

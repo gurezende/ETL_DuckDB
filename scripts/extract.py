@@ -24,7 +24,7 @@ def extract_data(dtf=dtf, days:list=[0], hours:list=[0], n=1000):
             # Convert to pandas dataframe
             df = pd.DataFrame.from_dict(data.json(), 
                                         orient='index', 
-                                        columns=['date', 'store', 'product', 'quantity','price'])
+                                        columns=['store', 'product', 'quantity','price', 'dt'])
 
             # Append to db
             dtf = pd.concat([dtf, df])
@@ -46,7 +46,7 @@ def extract_data(dtf=dtf, days:list=[0], hours:list=[0], n=1000):
 # Test
 if __name__ == '__main__':
 
-    extract_data(days=[0,-7,-30],n=500)
+    extract_data(days=[0,-7,-30],n=5)
 
 
 

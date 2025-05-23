@@ -26,7 +26,7 @@ async def fake_data(n:int=1, days:int=0, hours: int=0):
 
     Returns:
         dict: A dictionary where each key is a unique ID and each value is a 
-        dictionary containing 'date', 'product', 'price', and 'quantity' keys 
+        dictionary containing 'dt', 'product', 'price', and 'quantity' keys 
         with randomly generated values.
     """
 
@@ -34,7 +34,7 @@ async def fake_data(n:int=1, days:int=0, hours: int=0):
     for n in range(n):
         id = datetime.now().microsecond
         data[id] = {
-        'date': datetime.now() + timedelta(days=days, hours=hours),
+        'dt': datetime.now() + timedelta(days=days, hours=hours),
         'store': random.choice(['store1', 'store2', 'store3', 'store4', 'store5']),
         'product': random.choice(['widget', 'gadget', 'tdget'], p=[0.53, 0.38, 0.09]), 
         'quantity': int(abs(random.randn()))+2,

@@ -230,6 +230,7 @@ These are the optimized prices for each product by store:
 
 ## Dashboard
 ![Attached Plot](mosaic.png)
+![Attached Plot Price](price_optimization.png)
 \
 """)
 

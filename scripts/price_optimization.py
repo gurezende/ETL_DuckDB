@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import duckdb
 import os
+from plotnine import *
 
 # Price Modeling
 from pygam import GAM, ExpectileGAM, s, f
@@ -10,19 +11,20 @@ from pygam import GAM, ExpectileGAM, s, f
 import warnings
 warnings.simplefilter('ignore')
 
-def price_optimization(files=[f for f in os.listdir("./") if f.endswith(".parquet")]):
+def price_optimization():
     
     # Load Data
-    df = pd.read_parquet(files)
-    df.columns = ['date_', 'store', 'product', 'quantity', 'price']
+    df = pd.read_parquet([f for f in os.listdir("./") if f.endswith(".parquet")])
+    print(df.columns)
 
     # Clean and format data
-    df['date_'] = pd.to_datetime(df['date_']).dt.date
-    df['store'] = df['store'].apply(lambda x: int(x[-1]))
 
+    df['dt'] = df['dt'].apply(lambda x: x[:10])
+    df['store'] = df['store'].apply(lambda x: int(x[-1]))
+    
     # Aggregate
     df = (df
-          .groupby(['store', 'product', 'price', 'date_'])
+          .groupby(['store', 'product', 'price', 'dt'])
           .agg({'quantity': 'sum' })
           .reset_index()
     )
@@ -80,6 +82,56 @@ def price_optimization(files=[f for f in os.listdir("./") if f.endswith(".parque
         .reset_index(drop=True)
         )
     
+    # Calculating where the predicted 97.5% percentile revenue is the max
+    best_975 = (
+        all_gam_results
+        .groupby('product')
+        .apply(lambda x: x[x['revenue_pred_0.975'] == x['revenue_pred_0.975'].max()].head(1))
+        .reset_index(drop=True)
+)
+
+    # Calculating where the predicted 2.5% percentile revenue is the max
+    best_025 = (
+        all_gam_results
+        .groupby('product')
+        .apply(lambda x: x[x['revenue_pred_0.025'] == x['revenue_pred_0.025'].max()].head(1))
+        .reset_index(drop=True)
+    )
+    
+    # Visualize the GAM Optimization Result
+    fig = (ggplot(
+        # Data
+        data = all_gam_results,
+        # Axes
+        mapping = aes(x='price', y='revenue_pred_0.5', color='product', group='product') ) + 
+        # Adding the Band
+        geom_ribbon(aes(ymax= 'revenue_pred_0.975', ymin= 'revenue_pred_0.025'), 
+                        fill='#d3d3d3', color= '#FF000000', alpha=0.7, show_legend=False) +
+        # Adding the points
+        geom_point(aes(y='revenue_actual'), alpha=0.15, color="#2C3E50") +
+        # Adding 50th percentile line
+        geom_line(aes(y='revenue_pred_0.5'), alpha=0.5, color='darkred') +
+        # Addimg the 50th pct points
+        geom_point(data=best_50, color='red') + 
+        # Addimg the 97th pct points
+        geom_point(data=best_975, mapping= aes(y='revenue_pred_0.975'), color='blue') + 
+        # Addimg the 2.5th pct points
+        geom_point(data=best_025, mapping= aes(y='revenue_pred_0.025'), color='blue') + 
+        # Wraps by product
+        facet_wrap('product', scales='free') + 
+        # Labels
+        labs(
+            title='Price Optimization',
+            subtitle='Maximum median revenue (red point) vs 95% Maximum Confidence Interval',
+            x= 'Price',
+            y= 'Predicted Revenue'
+            ) +
+        theme(figure_size=(12,7))
+    )
+
+    # Save the plot
+    fig.save("price_optimization.png")
+
     # Optimizred price for each product
     return best_50
 
@@ -90,4 +142,4 @@ if __name__ == "__main__":
     # Read the current directory for parquet files
     files = [f for f in os.listdir("./") if f.endswith(".parquet")]
     print("\n")
-    print(price_optimization(files))
+    print(price_optimization())
