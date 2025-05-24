@@ -85,6 +85,14 @@ source .venv/bin/activate (Linux/macOS) or .venv\Scripts\activate (Windows)
 pip install -r requirements.txt
  ```
 
+4. Create a `.env` file in your project folder and save the API Keys and Email configs.
+```
+GEMINI_API_KEY="your-api-key"
+EMAIL_PASSWORD="your-api-key"
+SENDER_EMAIL="youremail@email.com"
+RECIPIENT_EMAIL="theiremail@gmail.com"
+```
+
 5. Run the API that generates the data
 
 ```bash
