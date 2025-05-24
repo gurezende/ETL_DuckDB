@@ -61,7 +61,7 @@ Being a small business, it should not have to go to expensive solutions like Dat
 * [Google Gemini](https://ai.google.dev/gemini-api/docs/api-key)
 * [GMail Access Key](https://support.google.com/mail/thread/205453566/how-to-generate-an-app-password?hl=en)
   - Access your Google Account (*in Gmail, click on your avatar on the top righ-hand side)
-  - Once logged in, there is a search bar on the center of the page. Search for App Access Key
+  - Once logged in, there is a search bar on the center of the page. Search for "*App Access Key*"
   - Go to the result. Write the description of the app.
   - Click Create.
 
