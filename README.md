@@ -141,8 +141,8 @@ Project using MIT License
 
 ## Known Issues
 
-There were some issues adding the project to Docker due to incompatibilities among the packages.<br>
-PyGAM's last commit was on *Feb, 2024*. Since then, there is a compatibility issue for newer versions of `numpy`/ `scipy`. Here is the fix:
+1. There were some issues adding the project to Docker due to incompatibilities among the packages. Docker is not being able to install Scipy. <br>
+2. PyGAM's last commit was on *Feb, 2024*. Since then, there is a compatibility issue for newer versions of `numpy`/ `scipy`. Here is the fix:
 
 * Manually change line 739 of **.venv/Lib/site-packages/pygam/pygam.py** to `Q, R = np.linalg.qr(WB.toarray())`.
 * Manually change line 82 of **.venv/Lib/site-packages/pygam/utils.py** to `A = A.toarray()`. 
