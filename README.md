@@ -60,6 +60,10 @@ Being a small business, it should not have to go to expensive solutions like Dat
 
 * [Google Gemini](https://ai.google.dev/gemini-api/docs/api-key)
 * [GMail Access Key](https://support.google.com/mail/thread/205453566/how-to-generate-an-app-password?hl=en)
+  - Access your Google Account (*in Gmail, click on your avatar on the top righ-hand side)
+  - Once logged in, there is a search bar on the center of the page. Search for App Access Key
+  - Go to the result. Write the description of the app.
+  - Click Create.
 
 1. Clone the repository.
   
@@ -85,21 +89,21 @@ source .venv/bin/activate (Linux/macOS) or .venv\Scripts\activate (Windows)
 pip install -r requirements.txt
  ```
 
-4. Create a `.env` file in your project folder and save the API Keys and Email configs.
+5. Create a `.env` file in your project folder and save the API Keys and Email configs.
 ```
 GEMINI_API_KEY="your-api-key"
-EMAIL_PASSWORD="your-api-key"
+EMAIL_PASSWORD="your-Gmail-Access-App-key"
 SENDER_EMAIL="youremail@email.com"
 RECIPIENT_EMAIL="theiremail@gmail.com"
 ```
 
-5. Run the API that generates the data
+6. Run the API that generates the data
 
 ```bash
 uvicorn scripts.api:app --reload
 ```
 
-6. Run the main script
+7. Run the main script
 
 ```bash
 python main.py
@@ -137,7 +141,13 @@ Project using MIT License
 
 ## Known Issues
 
-There were some issues adding the project to Docker due to incompatibilities among the packages.
+There were some issues adding the project to Docker due to incompatibilities among the packages.<br>
+PyGAM's last commit was on *Feb, 2024*. Since then, there is a compatibility issue for newer versions of `numpy`/ `scipy`. Here is the fix:
+
+* Manually change line 739 of **.venv/Lib/site-packages/pygam/pygam.py** to `Q, R = np.linalg.qr(WB.toarray())`.
+* Manually change line 82 of **.venv/Lib/site-packages/pygam/utils.py** to `A = A.toarray()`. 
+* There may be more places as well, depending on which models you use. The broad fix is just to replace `.A` with `.toarray()` everywhere you get that error.
+* For more solutions to this error, refer to the issue [#357](https://github.com/dswah/pyGAM/issues/357) in PyGAM's repo.
 
 ## About Me
 
