@@ -6,6 +6,8 @@
 This project demonstrates an ETL (Extract, Transform, Load) pipeline for a hypothetical company with chain of 5 stores, processing 1000 transactions a day. <br>
 Being a small business, it should not have to go to expensive solutions like Databricks to process large quantities of data. So, we present DuckDB as a good solution.
 
+![](img/Workflow%20Diagram%20ETL-duckDB-Agno.png)
+
 **Here is the flow of the data in this pipeline:**
 
 1. **FastAPI**: API integration, with data extracted daily (or customizable for the needed cadence)
