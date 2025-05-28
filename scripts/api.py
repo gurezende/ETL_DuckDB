@@ -19,17 +19,17 @@ async def root():
 @app.get("/get_data")
 async def fake_data(n:int=1, days:int=0, hours: int=0):
     """
-    Generate a dictionary of fake product data for a specified number of entries.
+    Generate fake data for the ETL pipeline.
 
-    Args:
-        n (int): The number of fake data entries to generate. Defaults to 1.
+    Parameters:
+    n (int): The number of rows to generate. Defaults to 1.
+    days (int): The number of days to offset the date by. Defaults to 0.
+    hours (int): The number of hours to offset the date by. Defaults to 0.
 
     Returns:
-        dict: A dictionary where each key is a unique ID and each value is a 
-        dictionary containing 'dt', 'product', 'price', and 'quantity' keys 
-        with randomly generated values.
+    dict: A dictionary with the generated data. The keys are the microsecond timestamps and the values are dictionaries with the keys 'dt', 'store', 'product', 'quantity', and 'price'.
     """
-
+    
     data = {}
     for n in range(n):
         id = datetime.now().microsecond

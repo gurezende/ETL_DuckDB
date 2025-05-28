@@ -1,13 +1,11 @@
 # Imports
 from extract import extract_data
 from load import transform_and_load
-from generate_report import generate_report_and_send
 from report import generate_report
 import os
 import time
 from agno.agent import Agent
 from agno.models.google import Gemini
-from report import generate_report
 from price_optimization import price_optimization
 from utils import *
 import pandas as pd
@@ -29,9 +27,6 @@ files = [f for f in os.listdir("./") if f.endswith(".parquet")]
 
 # Transform data and save to parquet file
 transform_and_load(files=files)
-
-# Read parquet files
-# df = pd.read_parquet(files)
 
 # 3. Generate report and send email
 print("\n")

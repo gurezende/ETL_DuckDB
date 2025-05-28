@@ -10,10 +10,10 @@ Being a small business, it should not have to go to expensive solutions like Dat
 
 1. **FastAPI**: API integration, with data extracted daily (or customizable for the needed cadence)
 2. **DuckDB** to quickly process, transform and load the clean data to a DB. The choice of DuckDB technology was due to its ability to process large sets of data locally and fastly.
-3. Price Optimization with Generalized Additive Model (**PyGAM**). The clean data is promptly analyzed to find the optimized price for each of the products.
-4. A Report is generated with the KPIs.
-5. AI Agent: An AI Agent by **Agno** analyzes the content of the KPIs for the day and generates a report.
-6. This report is automatically sent via email for a manager.
+3. **PyGAM**: Price Optimization with Generalized Additive Model. The clean data is promptly analyzed to find the optimized price for each of the products.
+4. **Python**:A Report is generated with the KPIs and optimized prices.
+5. **Agno**: An AI Agent analyzes the content of the KPIs for the day and generates a report.
+6. **SMTPLib**: This report is automatically sent via email to a manager.
 
 ## Features
 
